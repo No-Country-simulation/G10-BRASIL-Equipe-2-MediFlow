@@ -1,10 +1,11 @@
 """Leitura do documento com o Gemini: classifica e extrai os dados clínicos."""
 import os
+import time
 from typing import Optional
 
 from dotenv import load_dotenv
 from google import genai
-from google.genai import types
+from google.genai import errors, types
 from pydantic import BaseModel, Field
 
 from app.schemas import (
@@ -18,6 +19,8 @@ from app.schemas import (
 load_dotenv()
 
 MODELO = os.getenv("GEMINI_MODEL", "gemini-3.8-flash")
+MODELO_RESERVA = os.getenv("GEMINI_MODEL_RESERVA", "gemini-flash-latest")
+TENTATIVAS_POR_MODELO = 3
 _cliente = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 
 
@@ -67,6 +70,33 @@ Regras:
 """
 
 
+def _erro_temporario(erro: Exception) -> bool:
+    """Sobrecarga (503) ou limite de uso (429) costumam passar sozinhos."""
+    return isinstance(erro, errors.APIError) and erro.code in (429, 500, 503)
+
+
+def _chamar_gemini(partes: list):
+    """Tenta o modelo principal e, se continuar falhando, o modelo reserva."""
+    ultimo_erro = None
+    for modelo in (MODELO, MODELO_RESERVA):
+        for tentativa in range(TENTATIVAS_POR_MODELO):
+            try:
+                return _cliente.models.generate_content(
+                    model=modelo,
+                    contents=partes,
+                    config=types.GenerateContentConfig(
+                        response_mime_type="application/json",
+                        temperature=0,
+                    ),
+                )
+            except Exception as erro:
+                ultimo_erro = erro
+                if not _erro_temporario(erro):
+                    raise
+                time.sleep(2 ** (tentativa + 1))  # espera 2, 4 e 8 segundos
+    raise ultimo_erro
+
+
 def extrair(
     texto: Optional[str] = None,
     arquivo: Optional[bytes] = None,
@@ -81,12 +111,5 @@ def extrair(
     if len(partes) == 1:
         raise ValueError("Nenhum conteúdo de documento foi enviado.")
 
-    resposta = _cliente.models.generate_content(
-        model=MODELO,
-        contents=partes,
-        config=types.GenerateContentConfig(
-            response_mime_type="application/json",
-            temperature=0,
-        ),
-    )
+    resposta = _chamar_gemini(partes)
     return ResultadoExtracao.model_validate_json(resposta.text)
