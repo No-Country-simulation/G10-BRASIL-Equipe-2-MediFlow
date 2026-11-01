@@ -1,17 +1,25 @@
 """API REST do MediFlow (FastAPI). Documentação interativa em /docs."""
 import uuid
+from datetime import datetime, timezone
 from typing import Optional
 
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
+from pydantic import BaseModel
 
 from app.agente import processar
-from app.armazenamento import ler_json, listar, salvar_original, salvar_resultado
+from app.armazenamento import (
+    ler_json,
+    listar,
+    salvar_original,
+    salvar_resultado,
+    salvar_revisao,
+)
 from app.schemas import DocumentoEntrada, RespostaTriagem
 
 app = FastAPI(
     title="MediFlow API",
     description="Agente autônomo para triagem, extração e roteamento de documentos clínicos.",
-    version="1.0.0",
+    version="1.1.0",
 )
 
 TIPOS_ACEITOS = {
@@ -22,8 +30,19 @@ TIPOS_ACEITOS = {
 }
 
 
+class DecisaoAuditor(BaseModel):
+    aprovado: bool
+    auditor: str = "auditor"
+    observacao: Optional[str] = None
+
+
 def _novo_id() -> str:
     return f"DOC-{uuid.uuid4().hex[:8].upper()}"
+
+
+def _id_do_caminho(caminho: str) -> str:
+    """'auditoria_humana/DOC-123.json' vira 'DOC-123'."""
+    return caminho.rsplit("/", 1)[-1].removesuffix(".json")
 
 
 def _guardar_original(documento_id: str, conteudo: bytes, extensao: str, tipo: str) -> None:
@@ -85,8 +104,24 @@ def triagem_arquivo(
 
 @app.get("/auditoria", tags=["Revisão humana"])
 def pendentes_de_revisao():
-    """Lista os documentos que aguardam revisão humana."""
-    return {"pendentes": listar("auditoria_humana/")}
+    """Lista os documentos que aguardam revisão humana e ainda não foram revisados."""
+    revisados = {_id_do_caminho(c) for c in listar("revisoes/")}
+    pendentes = [c for c in listar("auditoria_humana/") if _id_do_caminho(c) not in revisados]
+    return {"pendentes": pendentes}
+
+
+@app.post("/auditoria/{documento_id}/decisao", tags=["Revisão humana"])
+def registrar_decisao(documento_id: str, decisao: DecisaoAuditor):
+    """Registra se o auditor aprovou ou rejeitou a extração do documento."""
+    registro = {
+        "documento_id": documento_id,
+        "aprovado": decisao.aprovado,
+        "auditor": decisao.auditor,
+        "observacao": decisao.observacao,
+        "data_revisao": datetime.now(timezone.utc).isoformat(),
+    }
+    caminho = salvar_revisao(documento_id, registro)
+    return {"status": "registrado", "caminho_objeto": caminho, **registro}
 
 
 @app.get("/documentos/{caminho:path}", tags=["Consulta"])

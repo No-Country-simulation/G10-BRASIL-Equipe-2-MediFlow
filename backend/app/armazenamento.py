@@ -1,4 +1,5 @@
 """Persistência no OCI Object Storage usando o link pré-autenticado (PAR)."""
+import json
 import os
 import re
 import unicodedata
@@ -67,8 +68,16 @@ def salvar_resultado(resposta: RespostaTriagem) -> RespostaTriagem:
     return resposta
 
 
+def salvar_revisao(documento_id: str, decisao: dict) -> str:
+    """Registra a decisão do auditor humano na pasta revisoes/."""
+    caminho = f"revisoes/{documento_id}.json"
+    conteudo = json.dumps(decisao, ensure_ascii=False, indent=2).encode("utf-8")
+    _enviar(caminho, conteudo, "application/json")
+    return caminho
+
+
 def listar(prefixo: str = "") -> List[str]:
-    """Lista os arquivos de uma pasta do bucket (usado no painel de auditoria)."""
+    """Lista os arquivos de uma pasta do bucket."""
     resposta = requests.get(PAR_URL, params={"prefix": prefixo}, timeout=30)
     resposta.raise_for_status()
     return [objeto["name"] for objeto in resposta.json().get("objects", [])]
