@@ -87,6 +87,7 @@ def mostrar_resultado(r: dict) -> None:
 
 with st.sidebar:
     st.title("🏥 MediFlow")
+    st.markdown("*A informação existe. O MediFlow faz ela chegar.*")
     st.caption("Triagem, extração e roteamento de documentos clínicos com IA.")
     try:
         requests.get(API_URL, timeout=5).raise_for_status()
