@@ -6,6 +6,13 @@
 
 Projeto da **Equipe 2** no Hackathon ONE G10 (Oracle Next Education, Alura e No Country).
 
+## Demo online
+
+- **Tela:** http://163.176.236.42:8501
+- **API (Swagger):** http://163.176.236.42:8000/docs
+
+Hospedado em uma máquina virtual Always Free da Oracle Cloud (OCI Compute), na região de São Paulo.
+
 ## O problema
 
 Hospitais, laboratórios e operadoras de saúde recebem todos os dias milhares de documentos diferentes: receitas, laudos, guias de autorização, relatórios de alta e atestados. Equipes administrativas leem esses papéis e PDFs manualmente para digitar os dados em sistemas, um processo lento, caro e sujeito a erros. Quando um laudo crítico fica parado na fila, o paciente em urgência espera.
@@ -35,6 +42,8 @@ flowchart LR
     G --> L[Google Gemini]
     A --> O[(OCI Object Storage)]
 ```
+
+Tela e API rodam em uma máquina OCI Compute Always Free, como serviços do sistema.
 
 ## Fluxo de decisão do agente
 
@@ -80,9 +89,9 @@ mediflow-documentos-clinicos/
 
 ## Tecnologias
 
-Python 3.13, Google Gemini (multimodal), LangGraph, Pydantic, FastAPI com Swagger, Streamlit e Oracle Cloud Infrastructure Object Storage (camada Always Free).
+Python 3.13, Google Gemini (multimodal), LangGraph, Pydantic, FastAPI com Swagger, Streamlit, Oracle Cloud Infrastructure Object Storage e OCI Compute (camada Always Free).
 
-## Como executar
+## Como executar localmente
 
 **Pré-requisitos:** Python 3.13, uma chave do Gemini ([AI Studio](https://aistudio.google.com/apikey)) e um bucket no OCI com um link pré-autenticado de leitura e escrita.
 
@@ -148,5 +157,5 @@ Equipe 2 do Hackathon ONE G10.
 
 ## Links
 
+- **Demo online:** http://163.176.236.42:8501
 - **Vídeo demo:** (a definir)
-
