@@ -134,5 +134,19 @@ python testar_agente.py
 
 | Cenário | Documento | Resultado |
 |---|---|---|
-| Rotina | Receita comum | Farmácia Hospitalar +
+| Rotina | Receita comum | Farmácia Hospitalar + Prontuário |
+| Urgência | Laudo de tromboembolismo pulmonar agudo | Fila de Emergência + alerta ao plantão |
+| Ambiguidade | Receita ilegível, sem CRM | Fila de Revisão Humana |
+
+## Visão de futuro
+
+Controle de acesso ao prontuário pelo próprio paciente (ou responsável legal), conforme a LGPD; integração com a RNDS (Rede Nacional de Dados em Saúde); comparação de medicamentos pelo princípio ativo na base da Anvisa; e redução de exames repetidos com o histórico unificado.
+
+## Equipe
+
+Equipe 2 do Hackathon ONE G10.
+
+## Links
+
+- **Vídeo demo:** (a definir)
 
