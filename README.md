@@ -8,8 +8,8 @@ Projeto da **Equipe 2** no Hackathon ONE G10 (Oracle Next Education, Alura e No 
 
 ## Demo online
 
-- **Tela:** http://163.176.236.42:8501
-- **API (Swagger):** http://163.176.236.42:8000/docs
+- **Tela:** http://144.22.197.211:8501/
+- **API (Swagger):** http://144.22.197.211:8000/docs
 
 Hospedado em uma máquina virtual Always Free da Oracle Cloud (OCI Compute), na região de São Paulo.
 
@@ -69,7 +69,7 @@ flowchart TD
 - O agente alerta, mas quem decide é sempre o médico ou o farmacêutico.
 - Confiança abaixo de 75% ou campo obrigatório ausente leva o documento para revisão humana.
 - Urgência nunca espera: vai para a Emergência mesmo com dúvidas, e as dúvidas seguem também para revisão.
-- Se o Gemini estiver instável, o agente tenta de novo e usa um modelo reserva antes de desistir.
+- Se o Gemini estiver instável ou atingir o limite de uso, o agente passa para outros modelos e para uma chave reserva; se tudo esgotar, o documento vai para revisão humana com um aviso claro.
 - Somente dados fictícios, em respeito à LGPD.
 
 ## Organização no OCI Object Storage (Always Free)
@@ -103,7 +103,7 @@ source .venv/Scripts/activate      # no Linux ou Mac: source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-Copie o arquivo `backend/.env.example` para `backend/.env` e preencha a chave do Gemini e o link do OCI.
+Copie o arquivo `backend/.env.example` para `backend/.env` e preencha a chave do Gemini e o link do OCI. Opcionalmente, adicione `GEMINI_API_KEY_RESERVA` com uma segunda chave, usada quando a principal atinge o limite.
 
 **Terminal 1, API:**
 
@@ -157,5 +157,6 @@ Equipe 2 do Hackathon ONE G10.
 
 ## Links
 
-- **Demo online:** http://163.176.236.42:8501
+- **Demo online:** http://144.22.197.211:8501/
+- **API (Swagger):** http://144.22.197.211:8000/docs
 - **Vídeo demo:** (a definir)
