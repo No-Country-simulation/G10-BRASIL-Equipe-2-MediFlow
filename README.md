@@ -112,16 +112,12 @@ cd backend
 uvicorn app.main:app --reload
 ```
 
-Documentação interativa (Swagger): http://127.0.0.1:8000/docs
-
 **Terminal 2, tela:**
 
 ```bash
 cd backend
 streamlit run ../frontend/app.py
 ```
-
-Tela: http://localhost:8501
 
 ## Endpoints
 
