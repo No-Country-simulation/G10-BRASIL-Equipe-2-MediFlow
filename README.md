@@ -6,11 +6,6 @@
 
 Projeto da **Equipe 2** no Hackathon ONE G10 (Oracle Next Education, Alura e No Country).
 
-## Demo online
-
-- **Tela:** http://144.22.197.211:8501/
-- **API (Swagger):** http://144.22.197.211:8000/docs
-
 Hospedado em uma máquina virtual Always Free da Oracle Cloud (OCI Compute), na região de São Paulo.
 
 ## O problema
@@ -151,8 +146,18 @@ Controle de acesso ao prontuário pelo próprio paciente (ou responsável legal)
 
 Equipe 2 do Hackathon ONE G10.
 
+Ana Clara Meneses Cordeiro - Backend Developer
+Arthur Carvalho Ferreira - Backend Developer
+Everton Correia Silva - Full Stack Developer
+Geovana Gonzaga Bizerra - Frontend Developer
+Hugo Costa da Silva - Full Stack Developer
+Juan Estevan Brandão Eleuterio - Backend Developer
+Kivia Queiroz - Project Manager
+Letícia Moura - Frontend Developer
+Patricia Alcantara - UX/UI Designer
+
 ## Links
 
 - **Demo online:** http://144.22.197.211:8501/
 - **API (Swagger):** http://144.22.197.211:8000/docs
-- **Vídeo demo:** (a definir)
+- **Vídeo demo:** https://www.youtube.com/watch?v=qsJB6kb-woY
