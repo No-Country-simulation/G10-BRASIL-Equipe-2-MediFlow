@@ -146,15 +146,15 @@ Controle de acesso ao prontuário pelo próprio paciente (ou responsável legal)
 
 Equipe 2 do Hackathon ONE G10.
 
-Ana Clara Meneses Cordeiro - Backend Developer
-Arthur Carvalho Ferreira - Backend Developer
-Everton Correia Silva - Full Stack Developer
-Geovana Gonzaga Bizerra - Frontend Developer
-Hugo Costa da Silva - Full Stack Developer
-Juan Estevan Brandão Eleuterio - Backend Developer
-Kivia Queiroz - Project Manager
-Letícia Moura - Frontend Developer
-Patricia Alcantara - UX/UI Designer
+- Ana Clara Meneses Cordeiro - Backend Developer
+- Arthur Carvalho Ferreira - Backend Developer
+- Everton Correia Silva - Full Stack Developer
+- Geovana Gonzaga Bizerra - Frontend Developer
+- Hugo Costa da Silva - Full Stack Developer
+- Juan Estevan Brandão Eleuterio - Backend Developer
+- Kivia Queiroz - Project Manager
+- Letícia Moura - Frontend Developer
+- Patricia Alcantara - UX/UI Designer
 
 ## Links
 
